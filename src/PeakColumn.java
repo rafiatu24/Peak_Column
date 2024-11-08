@@ -1,10 +1,15 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class PeakColumn {
-    // Method to find the peak-columns in the matrix
-    public static void findPeakColumns(int[][] matrix) {
+    // This is a method to find and return peak-columns in the matrix
+    public static List<int[]> findPeakColumns(int[][] matrix) {
         int rows = matrix.length;
         int cols = matrix[0].length;
 
-        // Iterate through each row 
+        List<int[]> peakColumns = new ArrayList<>();  // List to store peak-column coordinates and values
+
+        // Iterating through each row
         for (int i = 0; i < rows; i++) {
             // Step 1: Find the maximum element in the current row
             int maxInRow = matrix[i][0];
@@ -26,11 +31,13 @@ public class PeakColumn {
                 }
             }
 
-            // If the element is both the max in its row and the min in its column, print it
+            // If the element is both the max in its row and the min in its column, add it to the list
             if (isMinInCol) {
-                System.out.println("(" + (i + 1) + "," + (maxColIndex + 1) + ") = " + maxInRow);
+                peakColumns.add(new int[]{i + 1, maxColIndex + 1, maxInRow});  // Adding 1 for 1-based indexing
             }
         }
+
+        return peakColumns;  // Return the list of peak-columns
     }
 
     public static void main(String[] args) {
@@ -41,7 +48,17 @@ public class PeakColumn {
                 {92, 80, 79}
         };
 
-        // Call the method to find and also print peak-columns
-        findPeakColumns(matrix);
+        // Call the method to find and store peak-columns
+        List<int[]> peaks = findPeakColumns(matrix);
+
+        // Display the peak-columns
+        if (!peaks.isEmpty()) {
+            System.out.println("Peak-columns found:");
+            for (int[] peak : peaks) {
+                System.out.println("Row " + peak[0] + ", Column " + peak[1] + " = " + peak[2]);
+            }
+        } else {
+            System.out.println("No peak-columns found.");
+        }
     }
 }
